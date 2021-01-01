@@ -11,7 +11,7 @@
 #include "generalStringfunction.h"
 firstmenuLineNode * initList(firstmenuLineNode * list, char * LineName,  SDL_Renderer * renderer, int windowWidth);
 firstmenuLineNode * addMenuLine(firstmenuLineNode * list, char * LineName, SDL_Renderer * renderer);
-firstmenuLineNode * suppMenuLineList(firstmenuLineNode * list, char * LineName);
+firstmenuLineNode * suppMenuLineList(firstmenuLineNode * list);
 menuLine * getLastMenuLine(firstmenuLineNode * list);
 firstmenuLineNode * mulityAddMenuLine(firstmenuLineNode * list, int nbElementToAdd, SDL_Renderer * renderer);
 firstmenuLineNode * giveNameforMenuList(firstmenuLineNode * list, char * string);

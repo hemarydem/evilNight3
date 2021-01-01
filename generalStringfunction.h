@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 int numOfelementCutByPipe(char* str);
-char ** buildArrayfromCharCutByPipe(char * str);
+char ** initArrayFromStringCutByPipe(char* str, char ** array);
 char ** buildCharArray(int numOfLine);
+char * getString(int lenghtString);
 #endif
