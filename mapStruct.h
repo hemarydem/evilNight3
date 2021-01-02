@@ -7,9 +7,7 @@ struct map{
     struct map * next;
     struct map * last;
     SDL_Texture * selcetedBlue;
-    SDL_Texture * unselcetedGreen;
     SDL_Rect * spritBlue;
-    SDL_Rect * spritGreen;
 };
 typedef struct map map;
 

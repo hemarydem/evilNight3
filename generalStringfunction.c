@@ -12,38 +12,29 @@ int numOfelementCutByPipe(char* str) {
     return count;
 }
 
-char ** initArrayFromStringCutByPipe(char* str, char ** array) {
-    int count = 0;
-    char * ptrStart = str;
-    char * ptrEnd = str;
-    int i  = 0;
-    printf("\n initArrayFromStringCutByPipe string  = %s\n", str);
-    printf("\n---------initArrayFromStringCutByPipe---------\n");
-    printf("tail de str = %ld", strlen(str));
-    int lenght = strlen(str);
-    while (count < lenght) {
-      while (*ptrEnd != '|') {
-        ptrEnd++;
-        count++;
-         printf("\nwhile count = %d\n", count);
-         printf("\nwhile ptrEnd = %c\n", *ptrEnd);
-      }
-      *ptrEnd = '\0';
-      strcpy(array[i], ptrStart);
-      printf("\ncopier %s\n", ptrStart);
-      count++;
-      if(count < lenght){
-        ptrStart = ptrEnd + 1;
-        ptrEnd++;}
-     /** } else {
-        break;
-      }*/
-      printf("\nce qu'il reste %s\n", ptrStart);
-      printf("\ncount = %d\n", count);
-      printf("\n ptrEnd = %c\n", *ptrEnd);
-      i++;
+char ** initArrayFromStringCutByPipe(char* str, char ** array, int numofmap) {
+  int i = 0;
+  char * delim;
+  delim = malloc(sizeof(char) * 2);
+  strcpy(delim,"|");
+  char *ptr = strtok(str, delim);
+  while(ptr != NULL) {
+    if(i >=numofmap) {
+        printf("fin\n");
+        free(delim);
+        for (int k = 0; k < 5; k++) {
+          printf("array[%d] = %s\n", k,array[k]);
+        }
+        return array;
     }
-    return array;
+    printf("'%s'\n", ptr);
+    strcpy(array[i],ptr);
+    //printf("array[i] =%s\n", i,array[i]);
+    i++;
+    ptr = strtok(NULL, delim);
+  }
+  free(delim);
+   return array;
 }
 
 

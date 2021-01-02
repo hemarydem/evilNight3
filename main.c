@@ -58,7 +58,9 @@ int main(int argc, char ** argv) {
     /////////////////////////////////
     /*    gamplay  */
     /////////////////////////////////
-    int gameplay = 0;
+    int suppMapLisTrigger = 1;
+    SDL_Texture * arennaTexture;
+    SDL_Rect arennaRect;
     /////////////////////////////////
     /*    animation loop variable  */
     /////////////////////////////////
@@ -79,6 +81,8 @@ int main(int argc, char ** argv) {
     printf("\ninit menu texure \n");
     backgroundTexture = createTexuterImg("img/bckgrndMenu.jpg", renderer, backgroundTexture);
     SDL_QueryTexture(backgroundTexture,NULL,NULL, &backgroundRect.w, &backgroundRect.h);
+    arennaTexture = createTexuterImg("img/arenna.png", renderer, arennaTexture);
+    SDL_QueryTexture(arennaTexture,NULL,NULL, &arennaRect.w, &arennaRect.h);
     list = initList(list,"MENU", renderer, WINDOW_WIDTH);
     list = addMenuLine(list,"jvj",renderer);
     list = addMenuLine(list,"online",renderer); 
@@ -96,8 +100,8 @@ int main(int argc, char ** argv) {
         while(SDL_PollEvent(&event)) {
             printf("*repaire 2.2\n");
             if(event.type == SDL_QUIT) {
-                //finish = 0;
-                oneAndAlltoZero(&exitIng, menuOption, MENU_OPTION_SIZE,chargeMapMenu));
+                finish = 0;
+                //oneAndAlltoZero(&exitIng, menuOption, MENU_OPTION_SIZE,&chargeMapMenu);
             }
             printf("3 A\n");
             switch (event.type) {
@@ -120,6 +124,7 @@ int main(int argc, char ** argv) {
                     }
                 break;
             }
+            SDL_FlushEvent(event.type);
         }
         printf("\nSDL_RenderClear\n");
         SDL_RenderClear(renderer);
@@ -141,7 +146,7 @@ int main(int argc, char ** argv) {
                 numOfMaps = numOfelementCutByPipe(fileDataString);
                 printf("\nmain nombre de carte %d", numOfMaps);
                 arrayNameOfMaps = buildCharArray(numOfMaps);
-                arrayNameOfMaps = initArrayFromStringCutByPipe(fileDataString,arrayNameOfMaps);
+                arrayNameOfMaps = initArrayFromStringCutByPipe(fileDataString,arrayNameOfMaps,numOfMaps);
                 listMaps = initMapList(listMaps,"testmap", renderer, WINDOW_WIDTH);
                 for (size_t k = 0; k < numOfMaps; k++) {
                     addMap( listMaps, arrayNameOfMaps[k], WINDOW_WIDTH, renderer);
@@ -153,12 +158,18 @@ int main(int argc, char ** argv) {
             SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
             showMapMenu(listMaps, cursor, renderer);
         }
-        /*if(gameplay){
-
-        }*/
+        if(menuOption[6]){
+            printf("\n suppMapLisTrigger = %d\n", suppMapLisTrigger);
+            if(suppMapLisTrigger) {
+                suppMapLisTrigger = 0;
+                suppMenuMapList(listMaps);
+                printf("\nmaplist supprimer\n");
+            }
+            SDL_RenderCopy(renderer, arennaTexture, NULL, NULL);
+        }
         SDL_RenderPresent(renderer);
         SDL_Delay(1000/60);
-        if(menuOption[5] == 1) finish = 0;
+        //if(menuOption[6] == 1) finish = 0;
     }
     suppMenuMapList(listMaps);
     suppMenuLineList(list);

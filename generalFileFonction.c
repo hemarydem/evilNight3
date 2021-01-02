@@ -28,7 +28,7 @@ char * getDataFromFile(char * filename) {
     printf("\ngetDataFromFile\n");
     FILE * f;
     char * dataString;
-    if(fileExitste("maps")) {
+    if(fileExitste(filename)) {
         f = fopen(filename, "rb");
         printf("\nfichier exist and is open by getDataFromFile\n");
     } else {
@@ -54,8 +54,8 @@ void resetFile(char * filename) {
     if(f != NULL) {
         char * mDefaultList;
         mDefaultList = malloc(sizeof(char) * 12);
-        strcpy(mDefaultList, "defaultMap|");
-        fprintf(f,"%s", "defaultMap1|defaultMap2|defaultMap3|defaultMap4|defaultMap5|");
+        strcpy(mDefaultList, "defaultMapv");
+        fprintf(f,"%s", "defaultMap1|defaultMap2|defaultMap3|defaultMap4|defaultMap5|FIN|");
         fclose(f);
         free(mDefaultList);
     } else { 

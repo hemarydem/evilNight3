@@ -6,9 +6,9 @@ int * oneAndAlltoZero(int * cursor, int * array, int size, int * chargeMapMenu) 
         array[i] = 0;
         i++;
     }
-    if(!chargeMapMenu) {
-        creatGAMEPLAYFile(cursor);
-        array[7] = 1;
+    if(!*chargeMapMenu) {
+        creatGAMEPLAYFile(*cursor);
+        array[6] = 1;
         return array;
     }
     array[*cursor] = 1;

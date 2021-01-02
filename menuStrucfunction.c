@@ -99,6 +99,7 @@ menuLine * getLastMenuLine(firstmenuLineNode * list) {
 }
 
 firstmenuLineNode * suppMenuLineList(firstmenuLineNode * list) {
+    if(list->firstMap == NULL) return list;
     printf("\nsuppMenuLineList\n");
     menuLine * ptr;
     menuLine * tmp;
@@ -135,8 +136,10 @@ firstmenuLineNode * showMenu(firstmenuLineNode * list, int cursor, SDL_Renderer 
             SDL_RenderCopy(renderer, ptr->selcetedBlue, NULL, ptr->spritBlue);  
         } else {
             printf("\n showMenu repère 1.6\n");
-            SDL_RenderCopy(renderer, ptr->unselcetedGreen, NULL, ptr->spritGreen); 
+            SDL_RenderCopy(renderer, ptr->unselcetedGreen, NULL, ptr->spritGreen);
+             printf("\n showMenu repère 1.6.1\n");
         }
+        printf("\n showMenu repère 1.7\n");
         ptr = ptr->next;//loop to the end of the chain
     }
     printf("\n showMenu repère 2\n");
