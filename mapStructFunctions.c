@@ -18,8 +18,8 @@ firstMapLineNode * initMapList(firstMapLineNode * list, char * lineName,  SDL_Re
             printf("\n init map list %s\n",lineName);
             m->selcetedBlue = createTextureText(lineName, "font/gameria/gameria/GAMERIA.ttf", blue, 50, renderer);
             SDL_QueryTexture(m->selcetedBlue,NULL,NULL, &m->spritBlue->w, &m->spritBlue->h);
-            m->spritBlue->x = windowWidth/2 - m->spritBlue->w;
-            m->spritBlue->y = 10;
+            m->spritBlue->x = 100;
+            m->spritBlue->y = 100;
             printf("\nfin initList\n");
             return list;
         }

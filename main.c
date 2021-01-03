@@ -17,6 +17,7 @@
 #define WINDOW_WIDTH (620)
 #define WINDOW_HEIGHT (440)
 #define MENU_OPTION_SIZE (7)
+#define SPEED (600)
 
 int main(int argc, char ** argv) {
     /////////////////////////////////
@@ -36,13 +37,13 @@ int main(int argc, char ** argv) {
     int cursor = 1;
     int exitIng = 5;
     int menuOption[7] = { // array work as a boolean in animation loop
-    1,      //menu          =>  0
-    0,      //jvj           =>  2
-    0,      //online        =>  3
-    0,      //editor        =>  4
-    0,      //option        =>  5
-    0,       //quit          =>  6
-    0       //GAMPLAY
+        1,      //menu          =>  0
+        0,      //jvj           =>  2
+        0,      //online        =>  3
+        0,      //editor        =>  4
+        0,      //option        =>  5
+        0,      //quit          =>  6
+        0       //GAMPLAY       =>  7
     };
     /////////////////////////////////
     /*    mapSelector menu         */
@@ -56,11 +57,34 @@ int main(int argc, char ** argv) {
     listMaps = malloc(sizeof(firstMapLineNode));
     int chargeMapMenu = 1;
     /////////////////////////////////
-    /*    gamplay  */
+    /*    gamplay                  */
     /////////////////////////////////
     int suppMapLisTrigger = 1;
     SDL_Texture * arennaTexture;
     SDL_Rect arennaRect;
+    SDL_Texture * perso1Texture;
+    SDL_Rect MatricePerso1;
+    SDL_Texture * perso2Texture;
+    SDL_Rect MatricePerso2;
+    SDL_Rect p1Sprite;
+    SDL_Rect p2Sprite;
+    p1Sprite.x = 300;
+    p1Sprite.y = 200;
+    p2Sprite.x = 0;
+    p2Sprite.y = 0;
+    p1Sprite.w = WINDOW_WIDTH/5;
+    p1Sprite.h = WINDOW_HEIGHT/5;
+    p2Sprite.w = WINDOW_WIDTH/5;
+    p2Sprite.h = WINDOW_HEIGHT/5;
+
+    float xPosPerso1;
+    float yPosPerso1;
+    float xPosPerso2;
+    float yPosPerso2;
+
+    int perso1LastPostion[2] = {0, 0};
+    int perso2LastPostion[2] = {0, 0};
+
     /////////////////////////////////
     /*    animation loop variable  */
     /////////////////////////////////
@@ -83,17 +107,38 @@ int main(int argc, char ** argv) {
     SDL_QueryTexture(backgroundTexture,NULL,NULL, &backgroundRect.w, &backgroundRect.h);
     arennaTexture = createTexuterImg("img/arenna.png", renderer, arennaTexture);
     SDL_QueryTexture(arennaTexture,NULL,NULL, &arennaRect.w, &arennaRect.h);
+    
+    perso1Texture = createTexuterImg("img/pikachuTest.jpg", renderer, perso1Texture);
+    SDL_QueryTexture(perso1Texture,NULL,NULL, &MatricePerso1.w, &MatricePerso1.h);
+    perso2Texture = createTexuterImg("img/pikachuTest.jpg", renderer, perso2Texture);
+    SDL_QueryTexture(perso2Texture,NULL,NULL, &MatricePerso2.w, &MatricePerso2.h);
+    p1Sprite.h /= 2;
+    p1Sprite.w /= 2;
+    p2Sprite.h /= 2;
+    p2Sprite.w /= 2;
     list = initList(list,"MENU", renderer, WINDOW_WIDTH);
     list = addMenuLine(list,"jvj",renderer);
     list = addMenuLine(list,"online",renderer); 
     list = addMenuLine(list,"editor",renderer); 
     list = addMenuLine(list,"option",renderer); 
     list = addMenuLine(list,"quit",renderer);
+
+    perso1LastPostion[0] = p1Sprite.x;
+    perso1LastPostion[1] = p1Sprite.y;
+
+    perso2LastPostion[0] = p2Sprite.x;
+    perso2LastPostion[1] = p2Sprite.y;  
+
     /////////////////////////////////
     /*     animation loop          */
     /////////////////////////////////
     printf("\nanimation loop \n");   
     while (finish) {
+        perso1LastPostion[0] = xPosPerso1;
+        perso1LastPostion[1] = yPosPerso1;
+    
+        perso2LastPostion[0] = xPosPerso2;
+        perso2LastPostion[1] = yPosPerso2;  
         printf("repaire 1\n");
         SDL_Event event;
         printf("*repaire 2*\n");
@@ -115,11 +160,39 @@ int main(int argc, char ** argv) {
                             ++cursor;
                             ++mapCursor;
                             printf("bas\n");
+                            yPosPerso1 += SPEED/30;
                             break;
                         case SDLK_UP:
                             --cursor;
                             --mapCursor;
+                            yPosPerso1 -= SPEED/30;
                             printf("haut\n");
+                            break;
+                                 break;
+                        case SDLK_LEFT:
+                            xPosPerso1 -= SPEED/30;
+                            printf("gauche\n");
+                            break;
+                        case SDLK_RIGHT:
+                            xPosPerso1 += SPEED/30;
+                            printf("droite\n");
+                            break;
+                            //mario
+                        case SDLK_s:
+                            yPosPerso2 += SPEED/30;
+                            printf("bas\n");
+                            break;
+                        case SDLK_z:
+                            yPosPerso2 -= SPEED/30;
+                            printf("haut\n");
+                            break;
+                        case SDLK_q:
+                            xPosPerso2 -= SPEED/30;
+                            printf("gauche\n");
+                            break;
+                        case SDLK_d:
+                            xPosPerso2 += SPEED/30;
+                            printf("droite\n");
                             break;
                     }
                 break;
@@ -164,12 +237,23 @@ int main(int argc, char ** argv) {
                 suppMapLisTrigger = 0;
                 suppMenuMapList(listMaps);
                 printf("\nmaplist supprimer\n");
+                xPosPerso1 = p1Sprite.x;
+                yPosPerso1 = p1Sprite.y; 
+                xPosPerso2 = p2Sprite.x;
+                yPosPerso2 = p2Sprite.y;
+            } else {
+                p1Sprite.x = xPosPerso1;
+                p1Sprite.y = yPosPerso1; 
+                p2Sprite.x = xPosPerso2;
+                p2Sprite.y = yPosPerso2; 
             }
             SDL_RenderCopy(renderer, arennaTexture, NULL, NULL);
+            SDL_RenderCopy(renderer, perso1Texture, NULL, &p1Sprite);
+            SDL_RenderCopy(renderer, perso2Texture, NULL, &p2Sprite);
         }
         SDL_RenderPresent(renderer);
         SDL_Delay(1000/60);
-        //if(menuOption[6] == 1) finish = 0;
+        if(menuOption[5] == 1) finish = 0;
     }
     suppMenuMapList(listMaps);
     suppMenuLineList(list);

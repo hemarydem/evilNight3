@@ -19,10 +19,10 @@ char ** initArrayFromStringCutByPipe(char* str, char ** array, int numofmap) {
   strcpy(delim,"|");
   char *ptr = strtok(str, delim);
   while(ptr != NULL) {
-    if(i >=numofmap) {
+    if(i >= numofmap) {
         printf("fin\n");
         free(delim);
-        for (int k = 0; k < 5; k++) {
+        for (int k = 0; k < numofmap; k++) {
           printf("array[%d] = %s\n", k,array[k]);
         }
         return array;
@@ -36,7 +36,6 @@ char ** initArrayFromStringCutByPipe(char* str, char ** array, int numofmap) {
   free(delim);
    return array;
 }
-
 
 
 char ** buildCharArray(int numOfLine) {
