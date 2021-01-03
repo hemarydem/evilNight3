@@ -14,6 +14,9 @@
 #include "mapStruct.h"
 #include "mapStructFunctions.h"
 #include "arrayInt.h"
+#include "pointTrace.h"
+#include "pointTraceFonction.h"
+#include "coordo.h"
 #define WINDOW_WIDTH (620)
 #define WINDOW_HEIGHT (440)
 #define MENU_OPTION_SIZE (7)
@@ -68,6 +71,8 @@ int main(int argc, char ** argv) {
     SDL_Rect MatricePerso2;
     SDL_Rect p1Sprite;
     SDL_Rect p2Sprite;
+    firstPointNode * pointlist;
+
     p1Sprite.x = 300;
     p1Sprite.y = 200;
     p2Sprite.x = 0;
@@ -127,7 +132,9 @@ int main(int argc, char ** argv) {
     perso1LastPostion[1] = p1Sprite.y;
 
     perso2LastPostion[0] = p2Sprite.x;
-    perso2LastPostion[1] = p2Sprite.y;  
+    perso2LastPostion[1] = p2Sprite.y;
+
+   pointlist = initListPoint(pointlist,renderer);
 
     /////////////////////////////////
     /*     animation loop          */
@@ -245,8 +252,14 @@ int main(int argc, char ** argv) {
                 p1Sprite.x = xPosPerso1;
                 p1Sprite.y = yPosPerso1; 
                 p2Sprite.x = xPosPerso2;
-                p2Sprite.y = yPosPerso2; 
+                p2Sprite.y = yPosPerso2;
+                if(!isSamePosition(p1Sprite.x, p1Sprite.y, perso1LastPostion)) {
+                    if(positionIsBeforeX(p1Sprite.x, 100)) {
+                        addPoint( pointlist, perso1LastPostion[0], perso1LastPostion[1],renderer);
+                    }
+                }
             }
+            showPoints(pointlist,renderer);
             SDL_RenderCopy(renderer, arennaTexture, NULL, NULL);
             SDL_RenderCopy(renderer, perso1Texture, NULL, &p1Sprite);
             SDL_RenderCopy(renderer, perso2Texture, NULL, &p2Sprite);
